@@ -1,0 +1,8 @@
+.product-specification {
+  position: absolute;
+  left: 0;
+  top: 3px;
+  content: "\f00c";
+  font-family: "FontAwesome";
+  color: #00b853;
+}

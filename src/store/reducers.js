@@ -1,10 +1,10 @@
 import { combineReducers } from "redux";
 import { authReducer } from "./auth";
-import { productReducer } from "./product";
 // import { creatorReducer } from "./creator";
+import { productsReducer } from "./products";
 
 export default combineReducers({
   auth: authReducer,
-  productReducer
+  products: productsReducer,
   // creator: creatorReducer,
 });

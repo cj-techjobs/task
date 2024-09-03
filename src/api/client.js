@@ -1,6 +1,7 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import store from "../store";
+import { BaseUrl } from "../config";
 
 // const unauthorizedCode = [401];
 
