@@ -15,13 +15,13 @@ import "./product-details.css";
 import RelatedProducts from "../RelatedProducts/RelatedProducts";
 import { useDispatch, useSelector } from "react-redux";
 import { getAPI } from "../../api/services";
-import { APIS } from "../../api/endpoints";
 import {
   addProductToCart,
   addProductToFavourites,
   setProductDetails,
   setRelatedProducts,
 } from "../../store/products/actions";
+import { APIS } from "../../api/endPoints";
 
 const ProductDetails = () => {
   const cart = useSelector((state) => state.products.cart);
@@ -65,7 +65,7 @@ const ProductDetails = () => {
       {productDetails?.description_content}
     </div>
   );
-  const isAddedtoCart = cart.find((id) => id === currentProductId)
+  const isAddedtoCart = cart.find((id) => id === currentProductId);
   const increaseQuantity = () => setQuantity(parseInt(quantity) + 1);
   const decreaseQuantity = () => setQuantity(quantity - 1);
   return (

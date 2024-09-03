@@ -5,8 +5,6 @@ import { BaseUrl } from "../config";
 
 // const unauthorizedCode = [401];
 
-const BaseUrl = "http://localhost:4000/";
-
 const AxiosInstance = axios.create({
   timeout: 60000,
   baseURL: BaseUrl,

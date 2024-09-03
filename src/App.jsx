@@ -1,16 +1,15 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./store";
 import "./App.css";
-import Header from "./Components/Header";
-import ProductDetails from "./Components/ProductDetails/ProductDetails";
 import { Home } from "./pages/Home";
 import { Cart } from "./pages/Cart";
+import ProductDetails from "./components/ProductDetails";
 
 function App() {
   return (
     <Provider store={store}>
-      <Header />
+      {/* <Header /> */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/cart" element={<Cart />} />
