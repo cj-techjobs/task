@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import AccordionComponent from "../../Common/Accordion/Accordion";
+import AccordionComponent from "../../common/Accordion/accordian";
 import {
   Facebook,
   Linkedin,
@@ -12,10 +12,10 @@ import {
   Whatsapp,
 } from "../../assets";
 import "./product-details.css";
-import RelatedProducts from "../RelatedProducts/RelatedProducts";
+import RelatedProducts from "../related_products/RelatedProducts";
 import { useDispatch, useSelector } from "react-redux";
 import { getAPI } from "../../api/services";
-import { APIS } from "../../api/endpoints";
+import { APIS } from "../../api/endPoints";
 import {
   addProductToCart,
   addProductToFavourites,
