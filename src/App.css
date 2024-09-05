@@ -1,0 +1,9 @@
+.body{
+    font-size: 1rem;
+    font-family: "sofia","sofiaFallback",arial,sans-serif;
+    background-color: #f5f5f5;
+    color: #211e22;
+    
+    padding: 0;
+    margin: 0;
+}

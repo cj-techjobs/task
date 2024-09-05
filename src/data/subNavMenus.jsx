@@ -1,0 +1,1 @@
+export const menus = ["Furnitures","Outdoor","Bedding & Bath", "Rugs", "Décor & Pillows","Lighting","Organization","Kitchen","Baby & Kids"]
