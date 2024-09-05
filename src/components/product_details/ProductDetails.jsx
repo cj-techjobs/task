@@ -24,6 +24,26 @@ import {
 } from "../../store/products/actions";
 
 const ProductDetails = () => {
+  //dummy json for product details
+  const initialValues = {
+    _id: "66d319fae2303d9c7b61f3eb",
+    name: "Lip Balm With Donkey Milk",
+    price: "450",
+    image:
+      "https://www.aindhinai.com/images/product/1705997840Lip-Balm-With-Donkey-Milk.jpg",
+    oldPrice: "500",
+    category: "Donkey Skin Care Products",
+    size: "20 gm",
+    specification:
+      "Lip balm infused with Donkey milk. It keeps lips smooth and pleasantly flavored all day long while protection, hydrating, and nourishing them.",
+    ingredients: "Donkey Milk Power , Shea Butter , Vitamin E , Wax",
+    description_label: "Donkey Milk Soap-French Pink Clay",
+    description_content:
+      "This handmade organic product is made with carefully sourced ingredients from local producers. Using traditional methods, this product gets the perfect consistency and retains the authentic fragrance of the ingredients.",
+    oils: "Avocado Oil , Rosehip Oil , Coconut Oil",
+    fragrance: "Grapefruit essentail Oil",
+  };
+
   const cart = useSelector((state) => state.products.cart);
   const dispatch = useDispatch();
 
@@ -35,9 +55,9 @@ const ProductDetails = () => {
     await getAPI(`${APIS.PRODUCT_DETAILS}/${currentProductId}`).then((res) => {
       dispatch(setProductDetails(res.data[0]));
     });
-    await getAPI(`${APIS.RELATED_PRODUCTS}/${currentProductId}`).then((res) => {
-      dispatch(setRelatedProducts(res.data));
-    });
+    // await getAPI(`${APIS.RELATED_PRODUCTS}/${currentProductId}`).then((res) => {
+    //   dispatch(setRelatedProducts(res.data));
+    // });
   };
 
   useEffect(() => {
@@ -56,12 +76,13 @@ const ProductDetails = () => {
   const details = (
     <div className="flex text-base flex-col gap-2">
       <span className="text-lg font-medium">
-        {productDetails?.description_label}{" "}
+        {productDetails?.description_label || initialValues?.description_label}{" "}
       </span>
-      {productDetails?.description_content}
+      {productDetails?.description_content ||
+        initialValues?.description_content}
     </div>
   );
-  const isAddedtoCart = cart.find((id) => id === currentProductId)
+  const isAddedtoCart = cart.find((id) => id === currentProductId);
   const increaseQuantity = () => setQuantity(parseInt(quantity) + 1);
   const decreaseQuantity = () => setQuantity(quantity - 1);
   return (
@@ -72,36 +93,40 @@ const ProductDetails = () => {
             <img
               width={"100%"}
               className="max-h-[565px] max-w-[565px]"
-              src={productDetails?.image}
-              alt={productDetails?.name}
+              src={productDetails?.image || initialValues?.image}
+              alt={productDetails?.name || initialValues?.name}
             />
             <img
               width={80}
               height={80}
               className="mt-7 rounded-lg border-2 border-gray-600"
-              src={productDetails?.image}
-              alt={productDetails?.name}
+              src={productDetails?.image || initialValues?.image}
+              alt={productDetails?.name || initialValues?.name}
             />
           </div>
         </div>
         <div className="py-8 min-md:pl-6 max-sm:w-full w-[50%] flex gap-7 flex-col">
           <div>
             <p className="w-full text-[31px] font-semibold">
-              {productDetails?.name}
+              {productDetails?.name || initialValues?.name}
             </p>
-            <div className="font-semibold">Size: {productDetails?.size}</div>
+            <div className="font-semibold">
+              Size: {productDetails?.size || initialValues?.size}
+            </div>
           </div>
           <div className="flex items-end gap-2">
             <p className="text-[#990e35] text-[39px] leading-none">
-              &#8377;{productDetails?.price}{" "}
+              &#8377;{productDetails?.price || initialValues?.price}{" "}
             </p>
             <span className="line-through text-[#4d4a4f] text-base">
-              &#8377;{productDetails?.oldPrice}
+              &#8377;{productDetails?.oldPrice || initialValues?.price}
             </span>
             <span className="text-[#990e35] text-base">
               {Math.ceil(
                 ((productDetails?.oldPrice - productDetails?.price) * 100) /
-                  productDetails?.oldPrice
+                  productDetails?.oldPrice ||
+                  ((initialValues?.oldPrice - initialValues?.price) * 100) /
+                    initialValues?.oldPrice
               )}
               % Off
             </span>
@@ -147,13 +172,13 @@ const ProductDetails = () => {
           <div className="flex flex-col gap-2">
             <p className="text-xl font-medium">Product Specification</p>
             <div className="flex gap-1 text-base">
-              {productDetails?.specification}
+              {productDetails?.specification || initialValues?.specification}
             </div>
           </div>
           <div className="flex items-center gap-2">
             <p className="font-medium">Category:</p>
             <div className="flex gap-1 text-gray-600">
-              {productDetails?.category}
+              {productDetails?.category || initialValues?.category}
             </div>
           </div>
           <div className="flex flex-col gap-2">
@@ -179,17 +204,17 @@ const ProductDetails = () => {
             <AccordionComponent
               key={2}
               label={"Ingredients"}
-              details={productDetails?.ingredients}
+              details={productDetails?.ingredients || initialValues?.ingredients}
             />
             <AccordionComponent
               key={3}
               label={"Oils"}
-              details={productDetails?.oils}
+              details={productDetails?.oils || initialValues?.oils}
             />
             <AccordionComponent
               key={4}
               label={"Fragrance"}
-              details={productDetails?.fragrance}
+              details={productDetails?.fragrance || initialValues?.fragrance}
             />
           </div>
         </div>

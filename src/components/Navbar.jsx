@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 
 export const Navbar = () => {
-    const { cart } = useSelector((state) => state.productReducer);
+    const { cart } = useSelector((state) => state.product);
     const navigate = useNavigate();
     const dispatch = useDispatch();
 

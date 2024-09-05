@@ -11,7 +11,7 @@ import { setCart } from "../store/product/actions";
 
 export const Cart = () => {
   const dispatch = useDispatch();
-  const { cart } = useSelector((state) => state.productReducer);
+  const { cart } = useSelector((state) => state.product);
   const [totalPrice, setTotalPrice] = useState(0);
   const navigate = useNavigate();
 

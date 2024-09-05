@@ -8,7 +8,7 @@ import { setProducts } from "../store/product/actions";
 
 export const Home = () => {
   const dispatch = useDispatch();
-  const { products } = useSelector((state) => state.productReducer);
+  const { products } = useSelector((state) => state.product);
   const [selectedProducts, setSelectedProducts] = useState([]);
   const [categories, setCategories] = useState([]);
 
