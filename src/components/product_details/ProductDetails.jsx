@@ -32,14 +32,10 @@ const ProductDetails = () => {
   );
   const [quantity, setQuantity] = useState(1);
   const fetchAPI = async () => {
-    await getAPI(APIS.PRODUCT_DETAILS, {
-      id: currentProductId,
-    }).then((res) => {
+    await getAPI(`${APIS.PRODUCT_DETAILS}/${currentProductId}`).then((res) => {
       dispatch(setProductDetails(res.data[0]));
     });
-    await getAPI(APIS.RELATED_PRODUCTS, {
-      id: currentProductId,
-    }).then((res) => {
+    await getAPI(`${APIS.RELATED_PRODUCTS}/${currentProductId}`).then((res) => {
       dispatch(setRelatedProducts(res.data));
     });
   };
