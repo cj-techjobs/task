@@ -2,8 +2,9 @@ import { Routes, Route } from 'react-router-dom';
 import { Provider } from "react-redux";
 import store from "./store";
 import "./App.css";
+import store from "./store";
+import MainContent from "./MainContent";
 import Header from "./Components/Header";
-import ProductDetails from "./Components/ProductDetails/ProductDetails";
 import { Home } from "./pages/Home";
 import { Cart } from "./pages/Cart";
 
@@ -13,10 +14,10 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
+         <Route path="/product/:id" element={<MainContent />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="*" element={<Home />} />
       </Routes>
-      <ProductDetails />
     </Provider>
   );
 }

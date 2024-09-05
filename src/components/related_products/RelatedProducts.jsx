@@ -1,5 +1,5 @@
 import React from "react";
-import ProductCard from "../../Common/ProductCard/ProductCard";
+import ProductCard from "../../common/card/card";
 import {
   addProductToCart,
   setCurrentProductId,
