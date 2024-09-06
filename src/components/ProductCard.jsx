@@ -66,4 +66,5 @@ export const ProductCard = ({ data, onCardClick }) => {
 
 ProductCard.propTypes = {
   data: PropTypes.any.isRequired,
+  onCardClick:PropTypes.any
 };

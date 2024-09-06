@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import AccordionComponent from "../../common/Accordion/accordian";
@@ -14,19 +14,22 @@ import {
 import "./product-details.css";
 import RelatedProducts from "../related_products/RelatedProducts";
 import { useDispatch, useSelector } from "react-redux";
-import { getAPI } from "../../api/services";
+import { getAPI,postAPI,deleteAPI } from "../../api/services";
 import { APIS } from "../../api/endPoints";
 import {
-  addProductToCart,
   addProductToFavourites,
   setProductDetails,
   setRelatedProducts,
 } from "../../store/products/actions";
+import { toast } from "react-toastify";
+import { setCart } from "../../store/product/actions";
+
+
 
 const ProductDetails = () => {
   //dummy json for product details
   const initialValues = {
-    _id: "66d319fae2303d9c7b61f3eb",
+    _id: "1",
     name: "Lip Balm With Donkey Milk",
     price: "450",
     image:
@@ -44,7 +47,7 @@ const ProductDetails = () => {
     fragrance: "Grapefruit essentail Oil",
   };
 
-  const cart = useSelector((state) => state.products.cart);
+  const { cart } = useSelector((state) => state.product);
   const dispatch = useDispatch();
 
   const currentProductId = useSelector(
@@ -55,9 +58,6 @@ const ProductDetails = () => {
     await getAPI(`${APIS.PRODUCT_DETAILS}/${currentProductId}`).then((res) => {
       dispatch(setProductDetails(res.data[0]));
     });
-    // await getAPI(`${APIS.RELATED_PRODUCTS}/${currentProductId}`).then((res) => {
-    //   dispatch(setRelatedProducts(res.data));
-    // });
   };
 
   useEffect(() => {
@@ -67,8 +67,39 @@ const ProductDetails = () => {
   const productDetails = useSelector((state) => state.products.productDetails);
   const favourites = useSelector((state) => state.products.favourites);
 
-  const addToCart = () => {
-    dispatch(addProductToCart(currentProductId));
+  const handleAddToCart = async () => {
+    const result = await postAPI("/cart", {
+      productId: productDetails?.Id || initialValues?._id,
+      productName: productDetails?.name || initialValues?.name,
+      category: productDetails?.category || initialValues?.category,
+      price: productDetails?.price || initialValues?.price,
+      description: productDetails?.description || initialValues?.description,
+      qty: productDetails?.qty + 1 || 1,
+      brand: productDetails?.brand || initialValues?.brand,
+      rating: productDetails?.rating || initialValues?.rating,
+      img: productDetails?.image || initialValues?.image,
+    });
+
+    //To handle the Cart Item Number
+    const cartData = await getAPI("/cart");
+    dispatch(setCart(cartData?.data));
+
+    result.success == true
+      ? toast.success("Added to Cart")
+      : toast.error("Error");
+  };
+
+  const handleRemoveCartItem = async (id) => {
+    console.log("id is =?",id)
+    const result = await deleteAPI(`/cart/${id}`);
+    
+    //To handle the Cart Item Number
+    const cartData = await getAPI("/cart");
+    dispatch(setCart(cartData?.data));
+
+    result.success == true
+      ? toast.success("Item Removed Successfully")
+      : toast.error("Error");
   };
   const addToFavourites = () => {
     dispatch(addProductToFavourites(currentProductId));
@@ -82,7 +113,7 @@ const ProductDetails = () => {
         initialValues?.description_content}
     </div>
   );
-  const isAddedtoCart = cart.find((id) => id === currentProductId);
+  const isAddedtoCart = cart.find((product) => product.productId === currentProductId);
   const increaseQuantity = () => setQuantity(parseInt(quantity) + 1);
   const decreaseQuantity = () => setQuantity(quantity - 1);
   return (
@@ -163,7 +194,7 @@ const ProductDetails = () => {
               )}
             </div>
             <button
-              onClick={addToCart}
+              onClick={isAddedtoCart ? ()=>{handleRemoveCartItem(isAddedtoCart?._id)}  : handleAddToCart}
               className="bg-[#893caa] text-white w-full rounded-full"
             >
               {isAddedtoCart ? "Remove from cart" : "Add to cart"}
