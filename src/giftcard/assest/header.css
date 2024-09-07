@@ -1,0 +1,31 @@
+.header{
+    background-color:#7B189F;
+    color:#fff;
+    display: flex;
+    justify-content: space-between;
+    /* align-items: center; */
+}
+
+.mainBanner{
+    display: block;
+    max-height: 100%;
+    max-width: 100%;
+    margin: auto;
+}
+.giftTag{
+    padding: 32px;
+    align-items: center;
+    background-color: #f5f5f5;
+    display:flex;
+    justify-content: center;
+    gap:15px;
+    font-size:20px;
+    font-weight: 600;
+}
+.redemTag{
+    background-color: #fff;
+    color: #7B189F;
+    border:1px solid #7B189F;
+    border-radius:45px;
+    padding:15px;
+}

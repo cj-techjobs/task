@@ -1,0 +1,210 @@
+.banner{
+
+    font-family: "Poppins", sans-serif;
+    font-size: 16px;
+    @media (max-width: 1120px) {
+        justify-content: center;
+    }
+    min-height: 2rem;
+    .content{
+        height: 100%;
+        display: flex;
+        flex-direction: row !important;
+        @media (max-width: 1120px) {
+            flex-direction: row;
+          }
+        align-items: center;
+        justify-content: space-between;
+
+        margin: auto;
+        width: 90vw;
+    }
+    a{
+        text-decoration: none;
+        &:hover{
+            text-decoration: underline;
+        }
+    }
+    .left{
+        height: 2rem;
+        display: flex;
+        align-items: center;
+    }
+    .right{
+        display: flex;
+        a{
+            @media (max-width: 1120px) {
+                display: none;
+              }
+            padding: 0 3px;
+        }
+    }
+    .leftanchor{
+        display: flex;
+        // height: 1rem;
+        svg{
+            display: inline-block;
+            fill: currentcolor;
+            vertical-align: middle;
+            width: 24px;
+            height: 24px;
+            stroke: currentcolor;
+        stroke-width: 0.5px;
+        }
+    }
+    
+}
+
+
+.hamburger{
+    @media (max-width: 1120px) {
+        display: block;
+    }
+    display: none;
+}
+
+
+/* Basic styling for the Navbar component */
+.navbar {
+
+    width: 90vw;
+    margin: 10px auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    // @media (max-width: 1120px) {
+    //     justify-content: space-evenly;
+    //   }
+    align-items: center;
+    min-height: 5rem;
+    // padding: 10px 20px;
+    .navbar-left{
+        width: 150px;
+        @media (max-width: 1120px) {
+            width: 100px;
+          }
+    }
+  }
+  
+  .navbar-left, .navbar-center, .navbar-right {
+    display: flex;
+    align-items: center;
+  }
+
+  
+  .navbar-center {
+    flex-grow: 1;
+    text-align: center;
+    border: 1.5px solid black;
+    border-radius: 7px;
+    padding: 5px 15px;
+    max-width: 800px;
+    @media (max-width: 1120px) {
+        display: none;
+      }
+
+
+  }
+  
+  .search-bar {
+    padding: 8px;
+    width: 200px; /* Adjust width as needed */
+    // border: 1px solid #ccc;
+    // border-radius: 4px;
+    border: none;
+    width: 100%;
+  }
+  
+  .navbar-right {
+    display: flex;
+    align-items: center;
+    .signup .cart{
+        display: flex;
+    }
+    a {
+        text-decoration: none;
+        color: black;
+        font-weight: 500;
+        &:hover{
+            color: #7b189f;
+        }
+    }
+    svg{
+        height: 2.5rem !important;
+        width: 3rem !important;
+        padding: 0 10px;
+        &:hover{
+            stroke: #7b189f;
+            
+        }
+        @media (max-width: 1120px) {
+            height: 1.5rem !important;
+            width: 1.5rem !important;
+            padding: 0 ;
+          }
+
+    }
+  }
+  
+  *:focus {
+    outline: none;
+}
+
+//   .navbar-right .signup, .navbar-right .cart {
+//     margin-left: 20px; /* Space between the right-side elements */
+//   }
+  
+//   .navbar-right .signup img, .navbar-right .cart img {
+//     height: 30px; /* Adjust size as needed */
+//   }
+  
+//   .navbar-right span {
+//     margin-left: 5px; /* Space between the image and text */
+//   }
+  
+
+
+// NAV STRIP 
+
+.link-strip{
+    // background-color: #7b189f;
+    border-top: 1px solid #211e2243;
+    border-bottom: 1px solid #211e2243;
+    font-weight: 500;
+    color: #211e22;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 5px 0;
+    height: 2rem;
+    a{
+        font-size: 15px !important;
+        text-decoration: none;
+        color: #211e22;
+        &:hover{
+            color: #7b189f;
+            border-bottom: 2px solid #7b189f;
+        }
+    }
+    @media (max-width: 1120px) {
+        display: none;
+      }
+}
+
+// backup navbar
+.down{
+    @media (max-width: 1120px) {
+
+        width: 100%;
+        margin: 10px auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    display: none;
+}
+
+// header{
+//     height: 100vh;
+//     margin-bottom: ;
+// }

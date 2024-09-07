@@ -1,0 +1,44 @@
+.cards_main_wrapper{
+    /* padding:40px; */
+    width:100%;
+}
+.conatiner{
+    max-width:100%;
+    width:100%;
+   
+}
+.cards,.imageWrap{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    border-bottom: 1px solid #93939a;
+    padding-bottom: 20px;
+}
+
+.imageWrap{
+justify-content: space-around;
+}
+.imageWrap h2{
+    font-size: 16px;
+    font-weight: 600;
+}
+.imageWrap p{
+    font-size: 15px;
+    font-weight: 500;
+}
+.btn-primary{
+    color: #7B189F;
+    text-decoration: underline;
+    font-size: 15px;
+    background-color: unset;
+    border:unset;
+}
+
+
+@media screen and (max-width:768px) {
+    .cards{
+        flex-direction: column;
+    }
+    
+}
