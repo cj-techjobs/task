@@ -36,6 +36,7 @@ export const Home = () => {
 
 
 const linkStyle = {
+
     display: 'block',
     textAlign: 'center',
     color: 'black',
@@ -46,6 +47,7 @@ const linkStyle = {
     width: 'fit-content', 
     margin: '5px auto', 
     fontWeight: '600'
+    
   };
 
 
