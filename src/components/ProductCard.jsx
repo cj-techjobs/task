@@ -56,7 +56,7 @@ export const ProductCard = ({ data, onCardClick }) => {
         <h4 className="p-card-price">
           <small className="p-card-price-1">
             <i className="fa-solid fa-indian-rupee-sign"></i>
-            {(data?.price*1 + 8)}
+            {(data?.price*1 + 8).toFixed(2)}
           </small>
           &nbsp;
           <span className="p-card-price-2">
