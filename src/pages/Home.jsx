@@ -33,28 +33,10 @@ export const Home = () => {
         : products.filter((product) => product.category === category);
     setSelectedProducts(result);
   };
-
-
-const linkStyle = {
-
-    display: 'block',
-    textAlign: 'center',
-    color: 'black',
-    border: '2px solid #76be43',
-    borderRadius: '25px', 
-    padding: '5px 10px',
-    textDecoration: 'none', 
-    width: 'fit-content', 
-    margin: '5px auto', 
-    fontWeight: '600'
-    
-  };
-
-
+  
   return (
     <div>
       <Navbar />
-      <a  style={linkStyle} href="/giftcard">Giftcard</a>
       <SubNav data={categories} handleFilter={filterProducts} />
       <Products
         data={selectedProducts.length > 0 ? selectedProducts : products}
