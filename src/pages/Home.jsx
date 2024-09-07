@@ -1,10 +1,10 @@
 import { Navbar } from "../components/Navbar";
 import { SubNav } from "../components/SubNav";
 import { Products } from "./Products";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setProducts } from "../store/product/actions";
+import { getAPI } from "../api/services";
 
 export const Home = () => {
   const dispatch = useDispatch();
@@ -13,12 +13,11 @@ export const Home = () => {
   const [categories, setCategories] = useState([]);
 
   const getProducts = async () => {
-    const result = await axios.get("https://dummyjson.com/products/");
-    dispatch(setProducts(result?.data?.products));
-
+    const productsData = await getAPI('/products');
+    dispatch(setProducts(productsData?.data));
     const categories = [
       "All",
-      ...new Set(result?.data?.products.map((product) => product.category)),
+      ...new Set(productsData?.data.map((product) => product.category)),
     ];
     setCategories(categories);
   };

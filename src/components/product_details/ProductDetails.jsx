@@ -88,9 +88,9 @@ const ProductDetails = () => {
       ? toast.success("Added to Cart")
       : toast.error("Error");
   };
+  const isAddedtoCart = cart.find((product) => product.productId === currentProductId);
 
   const handleRemoveCartItem = async (id) => {
-    console.log("id is =?",id)
     const result = await deleteAPI(`/cart/${id}`);
     
     //To handle the Cart Item Number
@@ -113,7 +113,6 @@ const ProductDetails = () => {
         initialValues?.description_content}
     </div>
   );
-  const isAddedtoCart = cart.find((product) => product.productId === currentProductId);
   const increaseQuantity = () => setQuantity(parseInt(quantity) + 1);
   const decreaseQuantity = () => setQuantity(quantity - 1);
   return (

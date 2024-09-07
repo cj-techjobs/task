@@ -20,7 +20,7 @@ export const Products = ({ data }) => {
           <div key={index}>
             <ProductCard
               data={item}
-              onCardClick={() => onCardClick(item?.id)}
+              onCardClick={() => onCardClick(item?._id)}
             />
           </div>
         );
