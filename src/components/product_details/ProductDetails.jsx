@@ -66,7 +66,7 @@ const ProductDetails = () => {
   const favourites = useSelector((state) => state.products.favourites);
 
   const handleAddToCart = async () => {
-    const result = await postAPI(APIS.CART, {
+    const result = await postAPI("/cart", {
       productId: productDetails?.Id || initialValues?._id,
       productName: productDetails?.name || initialValues?.name,
       category: productDetails?.category || initialValues?.category,
@@ -79,7 +79,7 @@ const ProductDetails = () => {
     });
 
     //To handle the Cart Item Number
-    const cartData = await getAPI(APIS.CART);
+    const cartData = await getAPI("/cart");
     dispatch(setCart(cartData?.data));
 
     result.success == true
@@ -94,7 +94,7 @@ const ProductDetails = () => {
     const result = await deleteAPI(`/cart/${id}`);
 
     //To handle the Cart Item Number
-    const cartData = await getAPI(APIS.CART);
+    const cartData = await getAPI("/cart");
     dispatch(setCart(cartData?.data));
 
     result.success == true

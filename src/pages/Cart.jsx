@@ -17,7 +17,7 @@ export const Cart = () => {
 
   // Function to get the cart data
   const getProduct = async () => {
-    const cartData = await getAPI(APIS.CART);
+    const cartData = await getAPI("/cart");
     dispatch(setCart(cartData?.data));
 
     // Calculate subtotal price of all products in the cart

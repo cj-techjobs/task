@@ -11,7 +11,7 @@ export const ProductCard = ({ data, onCardClick }) => {
   const { cart } = useSelector((state) => state.product);
 
   const handleAddToCart = async () => {
-    const result = await postAPI(APIS.CART, {
+    const result = await postAPI("/cart", {
       productId: data?._id,
       productName: data.name,
       category: data.category,
@@ -23,7 +23,7 @@ export const ProductCard = ({ data, onCardClick }) => {
       img: data.image,
     });
     //To handle the Cart Item Number
-    const cartData = await getAPI(APIS.CART);
+    const cartData = await getAPI("/cart");
     dispatch(setCart(cartData?.data));
 
     result.success == true
@@ -36,7 +36,7 @@ export const ProductCard = ({ data, onCardClick }) => {
     const result = await deleteAPI(`/cart/${isAddedtoCart?._id}`);
 
     //To handle the Cart Item Number
-    const cartData = await getAPI(APIS.CART);
+    const cartData = await getAPI("/cart");
     dispatch(setCart(cartData?.data));
 
     result.success == true

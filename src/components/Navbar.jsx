@@ -12,7 +12,7 @@ export const Navbar = () => {
   const dispatch = useDispatch();
 
   const getCartItem = async () => {
-    const cartItem = await getAPI(APIS.CART);
+    const cartItem = await getAPI("/cart");
     dispatch(setCart(cartItem?.data));
   };
 
