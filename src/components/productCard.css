@@ -22,14 +22,11 @@
 
 .p-card{
     padding: 15px;
-    border: 2px solid rgba(231, 233, 243, 0.5019607843);
-    border-radius: 8px;
     overflow: hidden;
     position: relative;
 }
 
 .p-card:hover{
-    border: 2px solid #215D38;
     cursor: pointer;
 }
 

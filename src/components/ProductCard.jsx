@@ -1,8 +1,8 @@
 import "./productCard.css";
 import PropTypes from "prop-types";
-import { postAPI, getAPI,deleteAPI } from "../api/services";
+import { postAPI, getAPI, deleteAPI } from "../api/services";
 import { toast } from "react-toastify";
-import { useDispatch,useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setCart } from "../store/product/actions";
 
 export const ProductCard = ({ data, onCardClick }) => {
@@ -33,7 +33,7 @@ export const ProductCard = ({ data, onCardClick }) => {
 
   const handleRemoveCartItem = async () => {
     const result = await deleteAPI(`/cart/${isAddedtoCart?._id}`);
-    
+
     //To handle the Cart Item Number
     const cartData = await getAPI("/cart");
     dispatch(setCart(cartData?.data));
@@ -56,7 +56,7 @@ export const ProductCard = ({ data, onCardClick }) => {
         <h4 className="p-card-price">
           <small className="p-card-price-1">
             <i className="fa-solid fa-indian-rupee-sign"></i>
-            {(data?.price*1 + 8).toFixed(2)}
+            {(data?.price * 1 + 8).toFixed(2)}
           </small>
           &nbsp;
           <span className="p-card-price-2">
@@ -66,9 +66,12 @@ export const ProductCard = ({ data, onCardClick }) => {
         </h4>
       </div>
       <div className="p-card-btn">
-        <div className="p-card-btn-left" onClick={isAddedtoCart ? handleRemoveCartItem : handleAddToCart}>
+        <div
+          className="p-card-btn-left"
+          onClick={isAddedtoCart ? handleRemoveCartItem : handleAddToCart}
+        >
           <i className="fa-solid fa-basket-shopping"></i>
-          <span>{ isAddedtoCart ? " Remove" : " Add to Cart"}</span>
+          <span>{isAddedtoCart ? " Remove" : " Add to Cart"}</span>
         </div>
         <div className="p-card-btn-right">
           <i className="fa-regular fa-eye"></i>
@@ -80,5 +83,5 @@ export const ProductCard = ({ data, onCardClick }) => {
 
 ProductCard.propTypes = {
   data: PropTypes.any.isRequired,
-  onCardClick:PropTypes.any
+  onCardClick: PropTypes.any,
 };
