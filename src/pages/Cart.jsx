@@ -11,18 +11,32 @@ export const Cart = () => {
   const dispatch = useDispatch();
   const { cart } = useSelector((state) => state.product);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [subtotalPrice, setSubtotalPrice] = useState(0);
+  const [taxAmount, setTaxAmount] = useState(0); // New state for tax
   const navigate = useNavigate();
 
   // Function to get the cart data
   const getProduct = async () => {
-    const cartData = await getAPI("/cart");
+    const cartData = await getAPI(APIS.CART);
     dispatch(setCart(cartData?.data));
 
-    // Calculate total price of all products in the cart
-    const totalPrice = cartData?.data.reduce((total, product) => {
+    // Calculate subtotal price of all products in the cart
+    const subtotal = cartData?.data.reduce((total, product) => {
       return total + product.price;
     }, 0);
-    setTotalPrice(totalPrice.toFixed(2));
+
+    setSubtotalPrice(subtotal.toFixed(2));
+
+    // Calculate 9% tax based on the subtotal
+    const tax = subtotal * 0.09;
+    setTaxAmount(tax.toFixed(2));
+
+    // Assuming you have a fixed shipping cost or other fixed amounts to be added
+    const shippingCost = 0; // Free shipping for now
+
+    // Calculate total price: subtotal + tax + shippingCost
+    const total = subtotal + tax + shippingCost;
+    setTotalPrice(total.toFixed(2));
   };
 
   // Function to remove item from cart
@@ -43,7 +57,7 @@ export const Cart = () => {
     <>
       <Navbar />
       <div className="container mx-auto p-4">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           <div className="cart lg:col-span-8">
             <div
               className="btn-back py-2 cursor-pointer"
@@ -58,50 +72,46 @@ export const Cart = () => {
               return (
                 <div
                   key={index}
-                  className="my-4 p-4 shadow-sm flex flex-col sm:flex-row justify-between items-center sm:items-start"
+                  className="my-4 p-4 bg-white rounded-md shadow-md md:shadow-sm flex flex-col lg:flex-row justify-between items-center lg:items-start"
                 >
-                  <div className="flex flex-col sm:flex-row sm:items-start w-full sm:w-auto">
-                    <div className="cart-p-img w-full sm:w-auto sm:mr-4">
+                  <div className="flex flex-col lg:flex-row lg:items-start w-full">
+                    <div className="cart-p-img w-full lg:w-48 lg:mr-4 border bg-slate-100 rounded-lg">
                       <img
                         src={item?.img}
-                        height={"200px"}
-                        width={"200px"}
-                        className="w-full sm:w-auto h-auto max-w-full object-cover"
+                        className="w-full h-[300px] md:h-auto object-contain"
                         alt="Product Image"
                       />
                     </div>
-                    <div className="flex flex-col text-center sm:text-left mt-4 sm:mt-0">
+                    <div className="flex flex-col text-left lg:mt-0">
                       <div className="cart-p-title text-lg font-bold mb-2">
                         {item?.title}
                       </div>
                       <div className="cart-p-brand mb-2">
                         By {item?.brand} | {item?.category}
                       </div>
-                      <div className="cart-p-rating mb-2">
-                        Rating:{" "}
-                        <span className="font-bold">{item?.rating}</span>
-                      </div>
                     </div>
                   </div>
 
-                  <div className="flex flex-col sm:items-end justify-between w-full sm:w-auto mt-4 sm:mt-0">
-                    <div className="cart-p-price text-center sm:text-right">
-                      <span className="cart-p-price-1 block text-xl font-bold text-green-600">
+                  <div className="flex flex-col md:items-end justify-between w-full lg:w-auto lg:mt-0">
+                    <div className="flex items-end min-w-max text-center lg:text-right">
+                      <span className=" text-xl font-bold text-green-600 mr-2 lg:mr-4">
                         {"$ " + (item?.price - 8).toFixed(2)}
                       </span>
                       <span className="cart-p-price-2 line-through text-gray-500">
                         {"$ " + item?.price}
                       </span>
                     </div>
-                    <div className="cart-p-qty mt-2 text-center sm:text-right"></div>
-                    <div className="cart-p-btn-1 text-blue-500 cursor-pointer mt-2 text-center sm:text-right">
-                      Save for Later
-                    </div>
-                    <div
-                      className="cart-p-btn-2 text-red-500 cursor-pointer mt-2 text-center sm:text-right"
-                      onClick={() => handleRemoveCartItem(item._id)}
-                    >
-                      <i className="fa-solid fa-trash-can"></i> Remove
+
+                    <div className="flex mt-4 items-center gap-4">
+                      <div className="cart-p-btn-1 text-white bg-[#215D38] cursor-pointer  px-4 py-2 rounded-full min-w-max">
+                        Save for Later
+                      </div>
+                      <div
+                        className="cart-p-btn-2 text-white bg-red-500 cursor-pointer text-center rounded-full lg:text-right px-4 py-2 min-w-max"
+                        onClick={() => handleRemoveCartItem(item._id)}
+                      >
+                        <i className="fa-solid fa-trash-can"></i> Remove
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -117,7 +127,7 @@ export const Cart = () => {
             </div>
             <div className="pb-2 flex flex-row justify-between">
               <div>Item Sub Total</div>
-              <div>{totalPrice}</div>
+              <div>{"$ " + subtotalPrice}</div>
             </div>
             <div className="pb-2 flex flex-row justify-between">
               <div>
@@ -126,17 +136,17 @@ export const Cart = () => {
               <div>Free</div>
             </div>
             <div className="pb-2 flex flex-row justify-between">
-              <div>Estimated Tax</div>
-              <div>$ 38</div>
+              <div>Estimated Tax (9%)</div>
+              <div>{"$ " + taxAmount}</div>
             </div>
             <hr />
             <div className="pt-4 pb-2 flex flex-row justify-between">
               <div className="font-bold">Total</div>
-              <div>$ {(totalPrice * 1 + 38).toFixed(2)}</div>
+              <div>{"$ " + totalPrice}</div>
             </div>
             <div className="pb-2 flex flex-row justify-between">
               <div>You Save</div>
-              <div>$ 18</div>
+              <div>$ 0</div>
             </div>
             <div className="btn-checkout bg-blue-500 text-white py-2 px-4 rounded-md mt-4 text-center cursor-pointer">
               Proceed to Checkout

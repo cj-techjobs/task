@@ -3,4 +3,5 @@ export const APIS = {
   SIGNING_IN: "/fan/signin-request",
   PRODUCT_DETAILS: "/product-details",
   RELATED_PRODUCTS: "/related-products",
+  CART: "/cart",
 };

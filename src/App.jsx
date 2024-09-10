@@ -10,7 +10,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/product/:id" element={<MainContent />} />
-        <Route path="/cart" element={<Cart />} />
+        <Route path=APIS.CART element={<Cart />} />
         <Route path="*" element={<Home />} />
       </Routes>
     </>

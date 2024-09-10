@@ -4,13 +4,14 @@ import { postAPI, getAPI, deleteAPI } from "../api/services";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { setCart } from "../store/product/actions";
+import { APIS } from "../api/endPoints";
 
 export const ProductCard = ({ data, onCardClick }) => {
   const dispatch = useDispatch();
   const { cart } = useSelector((state) => state.product);
 
   const handleAddToCart = async () => {
-    const result = await postAPI("/cart", {
+    const result = await postAPI(APIS.CART, {
       productId: data?._id,
       productName: data.name,
       category: data.category,
@@ -22,7 +23,7 @@ export const ProductCard = ({ data, onCardClick }) => {
       img: data.image,
     });
     //To handle the Cart Item Number
-    const cartData = await getAPI("/cart");
+    const cartData = await getAPI(APIS.CART);
     dispatch(setCart(cartData?.data));
 
     result.success == true
@@ -35,7 +36,7 @@ export const ProductCard = ({ data, onCardClick }) => {
     const result = await deleteAPI(`/cart/${isAddedtoCart?._id}`);
 
     //To handle the Cart Item Number
-    const cartData = await getAPI("/cart");
+    const cartData = await getAPI(APIS.CART);
     dispatch(setCart(cartData?.data));
 
     result.success == true

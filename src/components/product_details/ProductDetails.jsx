@@ -14,7 +14,7 @@ import {
 import "./product-details.css";
 import RelatedProducts from "../related_products/RelatedProducts";
 import { useDispatch, useSelector } from "react-redux";
-import { getAPI,postAPI,deleteAPI } from "../../api/services";
+import { getAPI, postAPI, deleteAPI } from "../../api/services";
 import { APIS } from "../../api/endPoints";
 import {
   addProductToFavourites,
@@ -23,8 +23,6 @@ import {
 } from "../../store/products/actions";
 import { toast } from "react-toastify";
 import { setCart } from "../../store/product/actions";
-
-
 
 const ProductDetails = () => {
   //dummy json for product details
@@ -68,7 +66,7 @@ const ProductDetails = () => {
   const favourites = useSelector((state) => state.products.favourites);
 
   const handleAddToCart = async () => {
-    const result = await postAPI("/cart", {
+    const result = await postAPI(APIS.CART, {
       productId: productDetails?.Id || initialValues?._id,
       productName: productDetails?.name || initialValues?.name,
       category: productDetails?.category || initialValues?.category,
@@ -81,20 +79,22 @@ const ProductDetails = () => {
     });
 
     //To handle the Cart Item Number
-    const cartData = await getAPI("/cart");
+    const cartData = await getAPI(APIS.CART);
     dispatch(setCart(cartData?.data));
 
     result.success == true
       ? toast.success("Added to Cart")
       : toast.error("Error");
   };
-  const isAddedtoCart = cart.find((product) => product.productId === currentProductId);
+  const isAddedtoCart = cart.find(
+    (product) => product.productId === currentProductId
+  );
 
   const handleRemoveCartItem = async (id) => {
     const result = await deleteAPI(`/cart/${id}`);
-    
+
     //To handle the Cart Item Number
-    const cartData = await getAPI("/cart");
+    const cartData = await getAPI(APIS.CART);
     dispatch(setCart(cartData?.data));
 
     result.success == true
@@ -193,7 +193,13 @@ const ProductDetails = () => {
               )}
             </div>
             <button
-              onClick={isAddedtoCart ? ()=>{handleRemoveCartItem(isAddedtoCart?._id)}  : handleAddToCart}
+              onClick={
+                isAddedtoCart
+                  ? () => {
+                      handleRemoveCartItem(isAddedtoCart?._id);
+                    }
+                  : handleAddToCart
+              }
               className="bg-[#893caa] text-white w-full rounded-full"
             >
               {isAddedtoCart ? "Remove from cart" : "Add to cart"}
@@ -234,7 +240,9 @@ const ProductDetails = () => {
             <AccordionComponent
               key={2}
               label={"Ingredients"}
-              details={productDetails?.ingredients || initialValues?.ingredients}
+              details={
+                productDetails?.ingredients || initialValues?.ingredients
+              }
             />
             <AccordionComponent
               key={3}
