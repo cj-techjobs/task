@@ -1,14 +1,12 @@
 import "./productCard.css";
 import PropTypes from "prop-types";
-import { postAPI, getAPI, deleteAPI } from "../api/services";
+import { postAPI, getAPI } from "../api/services";
 import { toast } from "react-toastify";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setCart } from "../store/product/actions";
-import { APIS } from "../api/endPoints";
 
 export const ProductCard = ({ data, onCardClick }) => {
   const dispatch = useDispatch();
-  const { cart } = useSelector((state) => state.product);
 
   const handleAddToCart = async () => {
     const result = await postAPI("/cart", {
@@ -17,31 +15,19 @@ export const ProductCard = ({ data, onCardClick }) => {
       category: data.category,
       price: data.price,
       description: data.description,
-      qty: data.qty + 1 || 1,
+      qty: 1,
       brand: data.brand,
       rating: data.rating,
       img: data.image,
     });
-    //To handle the Cart Item Number
+
+    // Refresh cart data
     const cartData = await getAPI("/cart");
     dispatch(setCart(cartData?.data));
 
-    result.success == true
+    result.success
       ? toast.success("Added to Cart")
-      : toast.error("Error");
-  };
-  const isAddedtoCart = cart.find((product) => product.productId === data._id);
-
-  const handleRemoveCartItem = async () => {
-    const result = await deleteAPI(`/cart/${isAddedtoCart?._id}`);
-
-    //To handle the Cart Item Number
-    const cartData = await getAPI("/cart");
-    dispatch(setCart(cartData?.data));
-
-    result.success == true
-      ? toast.success("Item Removed Successfully")
-      : toast.error("Error");
+      : toast.error("Error Adding Item");
   };
 
   return (
@@ -67,12 +53,9 @@ export const ProductCard = ({ data, onCardClick }) => {
         </h4>
       </div>
       <div className="p-card-btn">
-        <div
-          className="p-card-btn-left"
-          onClick={isAddedtoCart ? handleRemoveCartItem : handleAddToCart}
-        >
+        <div className="p-card-btn-left" onClick={handleAddToCart}>
           <i className="fa-solid fa-basket-shopping"></i>
-          <span>{isAddedtoCart ? " Remove" : " Add to Cart"}</span>
+          <span>Add to Cart</span>
         </div>
         <div className="p-card-btn-right">
           <i className="fa-regular fa-eye"></i>
@@ -84,5 +67,5 @@ export const ProductCard = ({ data, onCardClick }) => {
 
 ProductCard.propTypes = {
   data: PropTypes.any.isRequired,
-  onCardClick: PropTypes.any,
+  onCardClick: PropTypes.func,
 };

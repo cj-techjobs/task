@@ -6,13 +6,15 @@ import { getAPI, deleteAPI } from "../api/services";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { setCart } from "../store/product/actions";
+import { Minus, Plus } from "../assets";
 
 export const Cart = () => {
   const dispatch = useDispatch();
   const { cart } = useSelector((state) => state.product);
   const [totalPrice, setTotalPrice] = useState(0);
   const [subtotalPrice, setSubtotalPrice] = useState(0);
-  const [taxAmount, setTaxAmount] = useState(0); // New state for tax
+  const [taxAmount, setTaxAmount] = useState(0);
+  const [itemCounts, setItemCounts] = useState([]);
   const navigate = useNavigate();
 
   // Function to get the cart data
@@ -20,14 +22,18 @@ export const Cart = () => {
     const cartData = await getAPI("/cart");
     dispatch(setCart(cartData?.data));
 
+    // Initialize itemCounts with product quantities
+    const initialCounts = cartData?.data.map((item) => 1) || [];
+    setItemCounts(initialCounts);
+
     // Calculate subtotal price of all products in the cart
-    const subtotal = cartData?.data.reduce((total, product) => {
-      return total + product.price;
+    const subtotal = cartData?.data.reduce((total, product, index) => {
+      return total + product.price * initialCounts[index];
     }, 0);
 
     setSubtotalPrice(subtotal.toFixed(2));
 
-    // Calculate 9% tax based on the subtotal
+    // Calculate 9% tax based on the
     const tax = subtotal * 0.09;
     setTaxAmount(tax.toFixed(2));
 
@@ -52,6 +58,32 @@ export const Cart = () => {
   useEffect(() => {
     getProduct();
   }, []);
+
+  // Function to handle quantity changes
+  const updateQuantity = (index, type) => {
+    const updatedCounts = [...itemCounts];
+    if (type === "increment") {
+      updatedCounts[index] += 1;
+    } else if (type === "decrement" && updatedCounts[index] > 1) {
+      updatedCounts[index] -= 1;
+    }
+    setItemCounts(updatedCounts);
+    calculatePrices(updatedCounts);
+  };
+
+  // Function to calculate prices (subtotal, tax, total) based on updated counts
+  const calculatePrices = (counts) => {
+    const subtotal = cart.reduce((total, product, index) => {
+      return total + product.price * counts[index];
+    }, 0);
+    setSubtotalPrice(subtotal.toFixed(2));
+
+    const tax = subtotal * 0.09;
+    setTaxAmount(tax.toFixed(2));
+
+    const total = subtotal + tax;
+    setTotalPrice(total.toFixed(2));
+  };
 
   return (
     <>
@@ -94,18 +126,30 @@ export const Cart = () => {
 
                   <div className="flex flex-col md:items-end justify-between w-full lg:w-auto lg:mt-0">
                     <div className="flex items-end min-w-max text-center lg:text-right">
-                      <span className=" text-xl font-bold text-green-600 mr-2 lg:mr-4">
-                        {"$ " + (item?.price - 8).toFixed(2)}
-                      </span>
-                      <span className="cart-p-price-2 line-through text-gray-500">
+                      <span className="text-xl font-bold text-green-600 mr-2 lg:mr-4">
+                        <b className="text-black">Price:</b>{" "}
                         {"$ " + item?.price}
                       </span>
                     </div>
 
                     <div className="flex mt-4 items-center gap-4">
-                      <div className="cart-p-btn-1 text-white bg-[#215D38] cursor-pointer  px-4 py-2 rounded-full min-w-max">
-                        Save for Later
+                      <div onClick={() => updateQuantity(index, "decrement")}>
+                        <img
+                          className="cursor-pointer w-5"
+                          src={Minus}
+                          alt="Icon"
+                        />
                       </div>
+                      {itemCounts[index]}
+                      <div
+                        className="w-5"
+                        onClick={() => updateQuantity(index, "increment")}
+                      >
+                        <img className="cursor-pointer" src={Plus} alt="Icon" />
+                      </div>
+                    </div>
+
+                    <div className="flex mt-4 items-center gap-4">
                       <div
                         className="cart-p-btn-2 text-white bg-red-500 cursor-pointer text-center rounded-full lg:text-right px-4 py-2 min-w-max"
                         onClick={() => handleRemoveCartItem(item._id)}
@@ -118,6 +162,7 @@ export const Cart = () => {
               );
             })}
           </div>
+
           <div className="order-summary shadow p-4 lg:col-span-4 mt-10 lg:mt-0">
             <h3 className="summary-title pb-4 font-bold text-3xl text-center lg:text-left">
               Order Summary
@@ -148,7 +193,7 @@ export const Cart = () => {
               <div>You Save</div>
               <div>$ 0</div>
             </div>
-            <div className="btn-checkout bg-blue-500 text-white py-2 px-4 rounded-md mt-4 text-center cursor-pointer">
+            <div className="btn-checkout bg-[#215D38]  text-white py-2 px-4 rounded-full mt-4 text-center cursor-pointer">
               Proceed to Checkout
             </div>
           </div>
